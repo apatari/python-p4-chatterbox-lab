@@ -16,7 +16,12 @@ db.init_app(app)
 
 @app.route('/messages')
 def messages():
-    return ''
+    messages = []
+    for message in Message.query.order_by(Message.created_at).all():
+        messages.append(message.to_dict())
+
+    response = make_response(messages, 200)
+    return response
 
 @app.route('/messages/<int:id>')
 def messages_by_id(id):
